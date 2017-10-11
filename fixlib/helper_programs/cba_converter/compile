@@ -1,0 +1,3 @@
+#!/bin/csh -f
+
+cc -o cba_converter cba_converter.c

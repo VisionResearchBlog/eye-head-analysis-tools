@@ -1,0 +1,16 @@
+%**************************************************************
+%*      README
+%*
+%*      pskirko 7.5.01
+%**************************************************************
+
+This program converts raw change blindness data files into 
+more matlab-friendly files.
+
+usage:
+
+cba_converter <file> //sorry, doesn't yet accept file lists i think
+
+example:
+
+cba_converter default.dat

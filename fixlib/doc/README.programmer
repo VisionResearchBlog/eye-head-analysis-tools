@@ -1,0 +1,21 @@
+%**************************************************************
+%*      README.programmer
+%*
+%*      pskirko 8.14.01
+%**************************************************************
+
+1. intro
+---------------------------------------------------------------
+
+This README is geared towards programmers or people who need to modify 
+the code to do something new.
+
+Know Matlab; there's a learning curve but it's pretty straightforward once
+learned.
+
+2. design
+---------------------------------------------------------------
+
+I'm not going to write much here.  I'm going to distribute most of the
+documentation into the actual functions.  A lot of the scripts are also 
+commented.

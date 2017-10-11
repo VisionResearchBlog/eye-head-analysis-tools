@@ -1,0 +1,231 @@
+README.user.loadingfiles
+
+$Id: README.user.loadingfiles,v 1.2 2001/08/17 15:15:31 pskirko Exp $
+pskirko 8.16.01
+
+1. intro
+---------------------------------------------------------------
+
+this README describes how loading files works in fixlib and how you might
+go about modifying a file in order to accomodate a new file format.
+
+First off, in order to modify file loaders, you need to have some understanding
+of programming, or at least changing numbers and stuff.  The hope is that
+one file is similar enough to another file that you can just change a few 
+numbers, or data types, and it will work.
+
+
+2. file types
+---------------------------------------------------------------
+
+Each experiment has its own file type.  Therefore, there is one (or more)
+files for loading data for each experiment, e.g. bfx_load_raw.m for baufix.
+These files are wholly independent of one another, and the generic code knows
+nothing about file types, it only knows about data. So, if you start a new 
+experiment, you need to write a new file loader.
+
+However, all files get loaded into something I refer to in the code as an ALL
+matrix.  An all matrix looks like this (a literal example):
+
+ALL = { [1, 2, 3, 4]', [60, 70, 60, 60]', ['hit', 'hit', 'miss', 'hit'] }
+
+that line above involves a number of Matlab concepts, be sure to understand
+them. you can copy that line onto a matlab prompt and it will load it up for 
+you and you can mess around with it.
+
+More generically, an ALL matrix has a "column" for each column in the data 
+file. ALL{1} would be the first column, ALL{2} the second, etc.
+
+So the goal of the file loader is to get data from a file into the ALL matrix.
+My file loaders also support loading individual columns, but I'll skip this
+as irrelevant.
+
+
+3. fixed vs. variable columns
+---------------------------------------------------------------
+
+Data files come in two types: fixed column and variable column files.  Change
+blindness is a variable column file, because while most lines have say 20-ish
+elements, some only have 2 or 3, like
+
+1 2 3 ... 20
+# Noticed 00:03:20:12
+1 2 3 ... 20
+
+I will only discuss fixed column files.  A programmer should handle variable
+column files. Variable column files are a lot slower in Matlab, for large
+data files (on the order of minutes).  (Note to programmers: you can probably
+speed this up in the future by using MEX files).  MEX files aside, stick with
+fixed column files for now (there are also other ways to speed up this stuff,
+by using Matlab's save and load features for example, but for now we'll ignore
+this too).
+
+
+3.5. a quick functional intro to file loaders
+---------------------------------------------------------------
+
+the best way to understand how files and file loading works is to use them
+yourselves. this is contingent on some understanding of Matlab, which you 
+should probably have, or have a willingness to learn.
+
+suppose you have a saccade testing program data file, 'A_FILE'.  you want
+to load it into Matlab. here is your matlab prompt:
+
+> 
+
+Now here's what you type at the prompt:
+
+> ALL = stp_load_raw('A_FILE')
+
+how did you know to call 'stp_load_raw', and what to pass it?? well, you 
+have to look at the available functions in the stp directory and see which
+one looks right by reading their descriptions.  
+
+ALL is a Matlab cell array. you can play with it like any other Matlab cell 
+array, or you can use a reader function (like stp_read_ALL) in order to 
+access its contents.
+
+If you play around with stuff this way, you should get a feel for how things 
+work.
+
+4. how file loader works
+---------------------------------------------------------------
+
+copy an existing file loader, like cba_load_raw.m.
+
+look for the part of the file that looks like this,
+
+
+----------------
+if(strcmp(option, 'all')) % take all columns
+  s1 = '%d '; s2 = '%f '; s3 = '%f '; s4 = '%f '; s5 = '%f ';
+  s6 = '%f '; s7 = '%f '; s8 = '%f '; s9 = '%f '; s10 = '%f ';
+  s11 = '%f '; s12 = '%f '; s13 = '%f '; s14 = '%f '; s15 = '%d ';
+  s16 = '%d '; s17 = '%d '; s18 = '%s '; s19 = '%f '; s20 = '%f ';
+  s21 = '%d '; s22 = '%d '; s23 = '%s';
+  
+  format = [s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 ...
+	    s11 s12 s13 s14 s15 s16 s17 s18 s19 s20 ...
+	    s21 s22 s23];
+  
+  [s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 ...
+   s11 s12 s13 s14 s15 s16 s17 s18 s19 s20 ...
+   s21 s22 s23] = textread(filename, format, 'headerlines', 1);
+
+  A{1} = s1; A{2} = s2; A{3} = s3; A{4} = s4; A{5} = s5;
+  A{6} = s6; A{7} = s7; A{8} = s8; A{9} = s9; A{10} = s10;
+  A{11} = s11; A{12} = s12; A{13} = s13; A{14} = s14; A{15} = s15;
+  A{16} = s16; A{17} = s17; A{18} = s18; A{19} = s19; A{20} = s20;
+  A{21} = s21; A{22} = s22; A{23} = s23;
+------------
+
+this is the part that loads all the columns of data into the ALL matrix. I'll
+go step by step.
+
+
+A) #######################
+
+-----
+if(strcmp(option, 'all')) % take all columns
+-----
+this line responds to the 'all' parameter when passed when calling the
+function. thus to get an ALL matrix, you need to pass in 'all'.  (e.g., see
+STP_LOAD_RAW for more details)
+
+B) #######################
+
+-----
+  s1 = '%d '; s2 = '%f '; s3 = '%f '; s4 = '%f '; s5 = '%f ';
+  s6 = '%f '; s7 = '%f '; s8 = '%f '; s9 = '%f '; s10 = '%f ';
+  s11 = '%f '; s12 = '%f '; s13 = '%f '; s14 = '%f '; s15 = '%d ';
+  s16 = '%d '; s17 = '%d '; s18 = '%s '; s19 = '%f '; s20 = '%f ';
+  s21 = '%d '; s22 = '%d '; s23 = '%s';
+-----
+
+This is my way of specifying that I expect 23 columns, and each one has 
+a different format (for more about formats, see TEXTREAD in Matlab):
+
+%d - integer (1)
+%f - floating point number (2.44545)
+%s - string (hit)
+
+Suppose you wanted to change column one from integer to float. Replace
+
+s1 = '%d ';
+
+with 
+
+s1 = '%f ';
+
+Now suppose you wanted to add a 24th column, as text.  You need to do 2 things:
+first, change
+
+s23 = '%s';
+
+to 
+
+s23 = '%s ';
+
+the second one has a space after the s.  the only one that shouldn't have
+this space is the last column. If you leave a space on the last column, i doubt
+anything wrong will happen.  But if you had
+
+s23 = '%s';  s24 = '%s ';
+
+something bad might happen. I can't remember.  You can always just try it.
+
+then, you can add the 24 th column:
+
+s24 = '%s ';  
+
+C) #######################
+
+-----
+format = [s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 ...
+    s11 s12 s13 s14 s15 s16 s17 s18 s19 s20 ...
+    s21 s22 s23];
+-----
+
+What you're doing here is a Matlab operation: you're concatenating all the 
+different s's into one long string.  If added any s's above (like s24), you 
+need to add them here in the obvious order.
+
+D) #######################
+
+-----
+  [s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 ...
+   s11 s12 s13 s14 s15 s16 s17 s18 s19 s20 ...
+   s21 s22 s23] = textread(filename, format, 'headerlines', 1);
+-----
+
+This is slightly confusing.  First, I'm calling the matlab function textread.
+Second, I'm _reusing_ s1-s23, not as inputs, but as outputs.  That's the 
+confusing part.  In any case, as in (c), add any s's to the left side as 
+necessary.
+
+A note about headerlines, if its 1 you skip the first line of the file, etc.
+see 'help textread' for more details. so if you have 2 lines of header you 
+want to skip, set it to 2.  If you have headers, but you don't skip them,
+bad stuff will probably happen.
+
+E) #######################
+
+-----
+  A{1} = s1; A{2} = s2; A{3} = s3; A{4} = s4; A{5} = s5;
+  A{6} = s6; A{7} = s7; A{8} = s8; A{9} = s9; A{10} = s10;
+  A{11} = s11; A{12} = s12; A{13} = s13; A{14} = s14; A{15} = s15;
+  A{16} = s16; A{17} = s17; A{18} = s18; A{19} = s19; A{20} = s20;
+  A{21} = s21; A{22} = s22; A{23} = s23;
+-----
+
+here is where I assign the read-in data to the output (its called A now, but
+it's the same as ALL--- ALL is just a mnemonic really).
+
+again, follow the pattern, if you added a 24th column, you need to add:
+
+A{24} = s24;
+
+
+So that's pretty much it.  If that doesn't work, go ask a programmer. As of
+summer 2001, paul ilardi is one of the resident ppl who know matlab. i m not
+sure who else does.

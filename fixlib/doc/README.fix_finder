@@ -1,0 +1,161 @@
+HOW TO USE THE FIXATITION FINDER:
+
+1. Process your data files into a matlab-friendly format:
+
+There are perl scripts for conversion located in helper_programs.
+See the README.perl in that directory for more info.
+Example for a single file: (At the command line in the data
+directory type)
+
+./"experiment_name"_converter datafile.dat
+
+This will produce a file with a .data extension ie datafile.dat.data
+
+Example for a batch job:
+
+Make sure you're in the right directory and type
+
+./"experiment_name"_converterALL
+
+And all .dat files will be processed to get a new set of .data files
+
+
+
+2. Start matlab. Set you environment path by running setup.m
+depending on your goals you can run individual files or do a
+batch.  Regardless of quantity there are several parameters that
+can be assigned.  In a separate terminal window you should can
+a copy of fix_finder.m and the first page contains these variables.
+Some of these are defined on the command line while others
+are can only be edited within fix_finder.m
+
+The current setup expects the following parameters (explained below)
+from the matlab command line:
+
+
+fix_finder('experiment_type', method, vel_thresh, time_thresh, clump_space_thresh, clump_t_thresh,viz_results, 'datafile')     
+ 
+Ex.) fix_finder('bricks', 11, 50, 50, 1, 'MPD_121302_ww_wt.dat.data' )     
+
+
+
+In general all fixation finding algorithms use these values:
+
+filename =  'MD_G2_071101.dat'; <-Command Line
+
+This obviously specifies the datafile (see batch_fix_finder.m to
+see how you treat multiple file names).
+
+Every experiment has its own unique file type and you must 
+explicitly tell matlab what it should expect:
+
+experiment_type = 'cba' %(Jochen Triesch), <-Command Linbe
+              or    'bricks' %(Jason Droll), 
+              or    'bfx' %(Pili Aivar),  
+              or    'baufix' %(Neil Mennie);
+
+
+The fixations can be found using raw ASL data(asl pixel velocity),
+Eye-In-Head which is in degrees or Gaze which integrates head rotation
+with eye angle.  Constantin's study seems to indicate gaze as being 
+worse than EIH  possibly due to increased noise so beware.
+
+%eye data type (asl, eih, gaze)
+eye_data_type =              'eih';
+
+
+Unless you're just testing things, you want to make sure matlab saves its results.
+It can do it in two formats: A .mat file and a plain text .fix file , both results are saved
+as the orgininal filename with all relevant parameters used (ie vel_thresh, time_thresh,
+algorithm type) added as a suffix.  For one algorithm two files are produced.
+If you choose two use 3 algorithms 7 files are produced - 6 .fix files for
+eahc algorithm and each level of confidence scoring and one matlab file.
+
+% saving results
+save_dot_fix_file =  1; % 1 to save, else 0
+save_mat_file     =  1; % 1 to save, else 0
+
+Depending on your aims visualizing the fixation record and confidence
+records can be turned on or off
+% visualizing results (1 = Yes ,0 = No)
+viz_results =                1; <-Command Line
+
+
+Method defines the algorithm for fixation detection.  
+% 1:        velocity threshold
+% 2:        adaptive velocity threshold
+% 4:        adaptive acceleration threshold
+% 8:        2 state hidden markov model with single gaussian
+% x+y+z:    Scoring based on three algorithms: eg. 1+2+8 = 11 does scoring using 1,2,8
+%method      = 1; <-Command Line
+
+You should notice that the individual numbers are powers of two.
+Fix_finder.m converts the number you enter into a binary version.
+Currently with 4 algorithms you can think of a for bit code with
+one bit assigned to each algorithm so that when an algorithms
+but is turned on with a one the algorithm will run. This should
+be taken into account when new alogrithms are added.
+
+
+Time threshold in milliseconds (ie. The output will not contain 
+fixations shorter than the specified duration)
+t_thresh = 65; %ms <- Command Line
+
+
+Velocity threshold (ie. A fixation will be identified if a data point falls
+%under the specified velocity AND if it lasts for the length of t_thresh)
+vel_thresh =                100; % deg/sec <- Command Line
+
+
+Clumping isn't always necessary but the general idea is that a set of short fixations
+might actually be one long fixation.  To clump the short fixations the software needs
+to parameters.  The space threshold - ie. two fixations can only be clumped if they
+are within some distance of each other presumably a degree or two.  Secondly one
+needs to define how far apart in time the fixations can be thus one might only want
+to clump fixations that occur within 50ms of each other for example. Currently
+this is specified in the .m file but could easily be put on the command line if
+needed.
+
+% clumping parameters (use [] to disable)
+    clump_space_thresh =         []; % deg
+    clump_t_thresh =             []; % ms
+
+
+This doesn't really need editing. The general idea is that it is somewhat
+ambiguous between identifying a track loss versus a blink with the eye
+tracker since they can often look similar.   Paul Ilardi wrote a matlab
+function that uses a few logical steps to filter out these noisy sections.
+In general this should always be left on. 
+% track loss parameters (use [] to disable)
+       track_loss_pupil_thresh = 0; if the ASL tracker is setup accordingly 
+
+The 2-state HMM relies on two probability distributions and
+transition probabilities between states that characterize
+saccades and fixations.  Hard coded within fix_finder_hmm.m
+are values for sigma(standard deviation), myu(mean), and the 
+matrix A which holds the transition probalities.  If the HMM
+seems to be returning odd results it may be that a given data
+file doesn't match the hard coded profile.  One can reestimate
+these values for an individual by changing the value below 
+
+reestimate = 0; % 1 to reestimate
+
+Please note when a new experiment is established it may be proper
+to reestimate these values for the data set.  The reestimation
+function only require eye velocities to be passed and if one
+creates a master array of all eye velocities for a given set
+of data one will be able to yield constants that may better
+characterize the data set.  The reestimation process may be
+shortened in duration by picking good initial estimates for
+the distributions Constantin reccomends either using the EM
+algorithm to get the parameters for the two gaussians or by
+using biologically plausible values.
+
+
+
+
+
+
+
+
+

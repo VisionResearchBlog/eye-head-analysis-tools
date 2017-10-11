@@ -1,0 +1,36 @@
+%**************************************************************
+%*      README.user.viz
+%*
+%*      pskirko 8.14.01
+%**************************************************************
+
+1. intro
+---------------------------------------------------------------
+
+This README introduces the visualization programs available in fixlib.
+
+There are two primary visualization programs in fixlib: browser and eyeviz.
+Browser is roughly a subset of eyeviz.  Both let you visualize eye movement 
+data and fixation results.
+
+There exist functions browser.m and eyeviz.m that run these programs, but
+they are not meant to be called by the user.  The user should instead call a 
+high-level function/script specific to a particular experiment: 
+bfx_study_subject.m is an example.  As a user, these high-level scripts let
+you set pertinent parameters and ignore lower-level details.  However, chances
+are you will eventually want to do something these high-level files don't 
+offer.  In this case, you most likely need a programmer to modify certain 
+files.
+
+WARNING! These programs may have bugs.
+
+
+2. documentation
+---------------------------------------------------------------
+
+for documentation:
+
+./README.user.browser			browser documentation
+./README.user.eyeviz				eyeviz documentation
+
+

@@ -1,0 +1,51 @@
+%**************************************************************
+%*      README.user.eyeviz
+%*
+%*      pskirko 8.14.01
+%**************************************************************
+
+For the most part eyeviz is straightforward to use.  Run it from a script
+(e.g., bfx_study_subject.m).  
+
+1. Buttons
+---------------------------------------------------------------
+
+1) PREV - steps to the previous moment in time, moves the time marker 
+          backwards accordingly
+2) NEXT - steps to the next moment in time, moves the time marker forwards
+          accordingly
+3) JUMP - jump to a specific time in ms. do not use commas, e.g. 100,000 is 
+          bad, 100000 is legit
+4) TRAIL - use to toggle trail on and off.  The trail pertains only to the
+           eye data not the fixations.
+
+The next buttons only apply when you've specified an editable fixation/fill 
+struct.  E.g., in bfx_study_subject.m, the fixation finder's results are set
+to editable and the results are saved in data/bfx/TEST_OUT.
+
+5) EDIT FIX - to use, click on the fixation you want to edit, then click
+              once to specify its new start, and again to specify its new end.
+              Updated fixations are immediately written to file
+
+6) NEW FIX - to use, click once to identify which row of fixations you want to
+             edit (make sure the editable flag has been set in the high-level
+             parameters), then click for its start and end points. Again, data
+             saved to file.
+            
+1. Other controls (usually clicking)
+---------------------------------------------------------------
+
+1) Click on any blank area on the timeplot (do not click on a fixation or
+   velocity, it will not register), then click again, and eyeviz will move
+   the time marker to that point. if, on your second click, you click to the
+   right or left of the timeplot, in that gray area, timeplot will shift its
+   x limits to center on a new section of data--- "turning a page".
+
+2) Right-click on any plot to change its x and y limits  and t_step. t_step 
+controls how much the window slides over when you do #1 above. its units are time
+units (eg milliseconds). try it.
+
+
+BUGS:
+
+i can't remember.

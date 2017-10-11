@@ -1,0 +1,60 @@
+%**************************************************************
+%*      README.user.fixfinders
+%*
+%*      pskirko 8.14.01
+%**************************************************************
+
+1. intro
+---------------------------------------------------------------
+
+this README is supposed to explain how to use the "fixation finder" aspects
+of Fixlib.  This, along with visualization, are probably its two biggest 
+purposes (I say probably because nobody besides has used this code to any
+extensive degree so far).
+
+There is no "fixation finder".  Its better to think about it at two levels:
+a low level and a high level.
+
+
+2. at a high level
+---------------------------------------------------------------
+
+At a high level each experiment has its own "fixation finder", e.g. 
+bfx_fix_finder.m.  The reason each experiment has its own file as that
+each experiment:
+  1) has its own data file format, so you need code to read in the file
+  2) has its own data type - the saccade testing program (summer 2001) 
+     currently only reports eye angles, but baufix and change blindness
+     tend to use gaze (eye + head).
+
+However, the parameters available from each such "fixation finder" are 
+identical because they all access the same low-level operations.
+
+Suppose you just started a new experiment.  To get a "fixation finder" 
+running, you need to read in these data files, and need a high-level script
+to read these files and analyze the code. As a user, you probably won't do 
+this-- a programmer needs to do this work.  The high-level script can probably
+be modified from previous experiment (like baufix), but reading new data
+files will most likely require programming expertise.
+
+But once you have all this in place, chances are all you will need to do
+is modify the parameters available in your high-level parameters. Of course
+it helps to know what these parameters do.  Umm, that will be described 
+elsewhere.
+
+So, to understand what the fix_finders do, see the comments in fix_finder_vt.m
+('help fix_finder_vt' at the Matlab prompt)
+
+3. at a low level
+---------------------------------------------------------------
+
+The low level is the generic code that all the experiment-specific scripts
+use.  Baufix, change blindness, etc all use the same core functions.
+
+These functions even have their own hierarchy.  The "higher low level" is
+represented by the function fix_finder_vt.m.  This represents fixation finding
+as a "process", i.e. as calling a series of atomic-like steps in some order.
+That's what fix_finder_vt.m does--- it corrects for track loss, computes
+fixations (itself a substep), and clumps results.
+
+As an aside, this lab primarily uses velocity-based algorithms.  

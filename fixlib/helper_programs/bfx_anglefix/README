@@ -1,0 +1,16 @@
+%**************************************************************
+%*      README
+%*
+%*      pskirko 7.5.01
+%**************************************************************
+
+This program corrects baufix files for head angle problems
+[0, 360] -> [-180, 180], and recomputes eye and gaze angles
+
+usage:
+
+bfx_anglefix <files>
+
+example:
+
+bfx_anglefix *.dat

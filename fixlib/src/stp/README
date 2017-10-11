@@ -1,0 +1,6 @@
+README
+pskirko 8.15.01
+
+STP is the saccade testing program.  the actual code resides in the 'motion'
+program. I'm not sure how to run it.  In any case this code reads those data
+files.

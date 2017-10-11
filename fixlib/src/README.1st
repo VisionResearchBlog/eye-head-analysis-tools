@@ -1,0 +1,50 @@
+%**************************************************************
+%*      README
+%**************************************************************
+
+A quick primer:  99% of the fixlib code is run in matlab
+though there are some helper programs (see below) that
+are non-matlab.  Once in matlab you should load setup.m 
+so that matlab can see the files it needs to run the
+the algorithms (presuming you have initially edited it to 
+make it point to your directory paths).
+
+Please note fixlib is partly based on legacy code originally
+developed by Peter Skirko.  Peter provided the means for
+file loading and visualization and some rudimentary algorithms
+for fixation finding.  These parts are still operable but
+the file fix_finder.m should be the foundation for adding new 
+experiments.  Constantin Rothkopf implemented and tested
+several algorithms upon which this is based.  fix_finder.m
+basically acts as a script to call the algorithms Constantin
+developed and Peter's visualization and file loading routines.
+
+
+1. intro
+---------------------------------------------------------------
+
+fixlib is a set of Matlab routines for visualizing and analyzing eye-tracking
+data for fixations and other stuff.
+
+
+2. directory structure
+---------------------------------------------------------------
+
+bin			executables/scripts
+data 			data files go in here
+doc			high-level documentation
+helper_programs 	small non-Matlab programs used in conjunction with 
+			fixlib
+src	 		matlab source code goes in here
+
+
+3. documentation
+---------------------------------------------------------------
+
+High-level documentation, read it:
+
+doc/README.programmer	read this if you are a programmer.
+doc/README.user		read this if you are a user.
+
+
+

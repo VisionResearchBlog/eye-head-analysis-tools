@@ -1,0 +1,26 @@
+There are 4 steps involved in preparing an experimental data file
+for the fixation algorithms in matlab. 
+
+1. Process the file so it is in an homogeneous format matlab can use.
+   To this end PERL scripts are effective.  Matlab wants files
+   with consistent numbers of columns which isn't the standard    
+   way our data files are often written. 
+
+2. Create (experiment_title)_load_data.m file: This may not
+   be the best way but Peter Skirko established the core filehandling  
+   routines in matlab and so each datafile type needs to have a unique file
+   for loading and reading(see below):
+
+3. Create (experiment_title)_read_ALL.m:  This and the above .m files basically
+   assign each column in a datafile to its own matrix in matlab and as such
+   each experiment requires these files for its data output.  
+
+4. Edit fix_finder.m to include the option for the new datafile.  fix_finder.m
+   evaluates the experiment_type text string and tests until it finds a match. 
+   For instance experiment_type = 'cba' will trigger the flow of the code
+   to invoke cba_load_data.m and cba_read_ALL.m before doing the actual fixation
+   finding,
+
+All of the above files referenced are fairly straightforward and have enough
+comments that one should be able to generate new files simply by following 
+the files for the other experiments already in use as a template. 

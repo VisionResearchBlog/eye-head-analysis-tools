@@ -1,0 +1,127 @@
+JJ_normal.dat
+-------------
+limbus_correct =   89.4737
+asl_correct =   94.7368
+limbus_correct2 =   89.4737
+frame_correct =   90.7895
+Orig_210_Latency =  -23.5366
+In_frame_210_NewLatency =  -42.2419
+On_frame_210_NewLatency =  -23.9268
+miss_list =
+     1     1     1     1
+     3     0     3     3
+     0     1     0     0
+     3     0     3     3
+     0     0     0     0
+     1     2     1     0
+saccades_210_orig =   126
+saccades_210_frame =   138
+saccades_501 =   185
+ans =     4
+
+
+JJ_normal_limbus.dat
+---------------------
+limbus_correct =   89.4737
+asl_correct =   97.3684
+limbus_correct2 =   85.5263
+frame_correct =   89.4737
+Orig_210_Latency =  -24.0980
+In_frame_210_NewLatency =  -44.0093
+On_frame_210_NewLatency =  -24.7358
+miss_list =
+     1     1     2     1
+     0     0     0     0
+     1     1     1     1
+     1     0     3     1
+     4     0     4     4
+     1     0     1     1
+saccades_210_orig =   109
+saccades_210_frame =   126
+saccades_501 =   195
+ans =     0
+
+
+JJ_head_move.dat
+----------------
+limbus_correct =   96.0526
+asl_correct =  101.3158
+limbus_correct2 =   93.4211
+frame_correct =   96.0526
+Orig_210_Latency =  -22.4286
+In_frame_210_NewLatency =  -42.3726
+On_frame_210_NewLatency =  -23.7105
+miss_list =
+     2     0     2     2
+     0     0     0     0
+     0     0     0     0
+     2     0     3     2
+     0     0     1     0
+     0     0     0     0
+saccades_210_orig =   200
+saccades_210_frame =   225
+saccades_501 =   562
+ans =     0
+
+
+JJ_real_sp.15.dat
+-----------------
+saccades_210_orig =    10
+saccades_210_frame =    13
+saccades_501 =    47
+ans =     0
+
+
+JJ_real_sp.30.dat
+-----------------
+saccades_210_orig =     6
+saccades_210_frame =     9
+saccades_501 =    83
+ans =     1
+
+JJ_real_sp.50.dat
+-----------------
+saccades_210_orig =     4
+saccades_210_frame =     4
+saccades_501 =   120
+ans =     0
+
+
+JJ_vor.dat
+-----------
+saccades_210_orig =     8
+saccades_210_frame =     9
+saccades_501 =   247
+ans =     1
+
+JJ_vor_vert.dat
+---------------
+saccades_210_orig =     2
+saccades_210_frame =     3
+saccades_501 =   322
+ans =     0
+
+
+ZY_norm.dat
+------------
+limbus_correct =   82.8947
+asl_correct =   98.6842
+limbus_correct2 =   78.9474
+frame_correct =   86.8421
+Orig_210_Latency =  -22.0408
+In_frame_210_NewLatency =  -40.7466
+On_frame_210_NewLatency =  -22.2600
+miss_list =
+     3     0     3     2
+     3     0     4     3
+     2     1     2     2
+     3     0     3     2
+     2     1     4     1
+     0     0     0     0
+saccades_210_orig =    74
+saccades_210_frame =    83
+saccades_501 =   226
+ans =     3
+
+
+

@@ -1,0 +1,84 @@
+README.metrics
+pskirko 7.27.01
+
+1. intro, etc.
+---------------------------------------------------------------
+
+I use metrics to describe quantitatively comparing two fixation results
+(say, between a fixation finder and an expert coder).
+
+Currently, the only metric people seem to use are number and duration of 
+fixations.  These are necessary but not sufficient tools.  I'll give a few
+quick reasons. 1) They provide no "local" information differences (two 
+results could agree in some regions of time more closely than others, this to 
+me seems useful to know, or maybe the contrapositive is clearer: to not know 
+these differences, to me, seems harmful. 2) Speculation: these statistics
+are not "fair" to computer algorithms.  Or, more pragmatically, I mean that
+if a computer algorithm does not pass the "number/duration" test, I still
+think the results have some validity.  To treat the validity of a computer
+result as a "its perfect"/"its no good" choice is useless.  The smart trick
+is to figure out how to say "this is better or worse, and why, and how".
+
+So I've come up with some new metrics.  They measure different things.  The 
+only thing I will speculate on are that such measures, or their descendants,
+might be useful, if they are used to answer the right questions. 
+
+There's two levels of abstraction.  One are the brute operations performed
+on fixations, they usually start with "fix_".  The other are metrics which
+are built on these operations, they start with "metric".
+
+In any case, the m-files should give some hint as to what these files do.
+
+Operations:
+
+1) "set operations"
+    union, intersection.
+
+2) "area operations"
+    area w/ and w/o gaps (regions of space between fixations)
+
+3) "extended set operations"
+   agree, disagree (two fixations can coincide both on the fixation, AND
+   the region of empty space, the "saccade" in theory.  agree and disagree
+   take this into consideration)
+
+4) "counting operations"
+   span, gap span.  the notion: a fixation in one result should locally
+   correspond to one fixation in the other result; similarly, the empty
+   space or gap in one fixation result should correspond locally to one gap
+   in the other result.  Goal is to measure local and global deviations
+   from the ideal 
+
+Metrics:
+
+1) "area measures"
+    area, conditional area.  the notion: want to say things like "these
+    two fixations agree on 80% of this time interval", or "fixation result
+    1 agrees conditionally on fixation 2, that is to say, fixation 2 might
+    actually be bigger overall"
+
+
+2) avg span, gap span, etc.
+
+3) dev span, dev gap span.  instead of doing averages, we'll do deviations 
+   from the "ideal" value, this way high and low values dont' "cancel" each 
+   other to make the answer look better than it is. see METRIC_DEV_SPAN, etc
+
+
+2. examples
+---------------------------------------------------------------
+
+A sample script study_fix_ops.m will help you visualize what these all mean.
+
+
+3. warnings
+---------------------------------------------------------------
+
+1) area_intersect uses total area in cluding gaps for the denominator. that
+means two identical fixations will not have area_intersect of 1, since they
+don't intersect on the empty space. you might want to change area_intersect to
+only look at non-gap area, that might make more sense.
+
+2) some boundary cases are suspect, for example in gap span try running it
+when two fixations line up on various boundaries, see what the results look
+like and if they make sense. there's a degree of arbitrariness there.

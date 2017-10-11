@@ -1,0 +1,13 @@
+%**************************************************************
+%*      README
+%*
+%*      pskirko 7.17.01
+%**************************************************************
+
+This directory contains Matlab code files.  The sub-directories are:
+
+bfx	baufix-specific code
+cba 	change blindness-specific code
+stp 	saccade testing program code
+baufix  Neil Mennie's real world baufix
+bricks  Jason Droll's bricks experiment

@@ -1,0 +1,45 @@
+#!/usr/staff/bin/perl
+
+#The first line defines the directory path where perl is installed 
+#If on silicon use: #!/bin/perl
+#If on a linux machine use: #!/usr/staff/bin/perl
+
+
+use strict;
+my ($inputfilename, $inputfilename2, $linein, @words);
+
+#Define the file names to be used
+$inputfilename = $ARGV[0];
+$inputfilename2 = ">".$ARGV[0].".data";
+
+#Open the files for writing/reading
+open (inputFile, $inputfilename) or die ("could not open the input file: $!");
+open (outputFile, $inputfilename2) or die ("could not open the output file:$!");
+
+#process the input to the end of file
+while ($linein = <inputFile>){
+
+#This is the main logical part of this simple program.  The script will
+#only process lines EQUAL to the text in the "if" statement.
+#In this file only lines beginning with data are used.
+#This results in a new file with all extraneous lines removed.
+
+    @words = split(" ",$linein); #break on space
+    my $size = @words; 
+    
+#The bricks program is unique since the datafile has two column lengths (18 vs. 31) thus
+#we have to make the lengths homogeneous for matlab and remove the extraneous info
+    if($size == 18){
+    my $output = sprintf("%s %f %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d 0 0 0 0 0 null_color null_texture 0 0 0 0 0 0\n", 
+                $words[0],  $words[1],  $words[2],  $words[3],  $words[4],  $words[5],
+                $words[6],  $words[7],  $words[8],  $words[9],  $words[10], $words[11],
+                $words[12], $words[13], $words[14], $words[15], $words[16], $words[17],
+			 $words[18]); 
+    print outputFile $output;}
+ 
+    if ($size == 31) {print outputFile $linein; }
+
+}#while
+close(inputFile);
+close(outputFile);
+

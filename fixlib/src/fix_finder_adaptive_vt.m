@@ -1,0 +1,56 @@
+%FIX_FINDER_ADAPTIVE_VT comprehensive fixation finder
+%  FIX = FIX_FINDER_ADAPTIVE_VT is an extension of the
+%  FIX = FIX_FINDER_VT algorithm
+%  
+% $Id: fix_finder_adaptive_vt.m,v 1.4 2002/July Constantin Rothkopf
+
+function [fix, fix_frames, avel_thresh, vel_filtered] = fix_finder_adaptive_vt(  t, x, raw_asl, ...
+			     clump_space_thresh, ...
+			     clump_t_thresh, ...
+			     tl_pupil_thresh, ...
+			     vt_t_thresh, ...
+			     vt_vel_thresh, winsize, m, b)
+vel = compute_vel(t, x);
+vel = vel.*1000; % deg/ms -> deg/s
+
+%this uses the new correct_vel_for_track_loss.m function !!!!!!!!!!!!!!!!!!!
+[vel,state] = correct_vel_for_track_loss(  t, vel, raw_asl, tl_pupil_thresh  );
+
+%adaptive filter
+
+vel_filtered = filter_adaptive_smooth( vel , 1 );
+
+
+% compute fix by calling one of the proposed algorithms
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%this was the first one, developed based on the baufix
+%data files which were recorded with frame averaging
+%fix = compute_fix_adaptive_vt(t, vel, vt_vel_thresh, 0);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%the second one. linear fit between maximum and minimum 
+%threshold values based on mean velocity value within
+%a window of variable size
+[fix, fix_frames, avel_thresh] = compute_fix_a_vt_001(  t, vel, vel_filtered,...
+    vt_t_thresh, vt_vel_thresh, winsize,m,b  );
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%the third one. use the root mean square
+%deviation as a moise estimate present in
+%the base signal
+%fix = compute_fix_a_vt_002(t, vel);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%clump fixations
+%this was implemented by Paul. The assumption is that fixations
+%occour on bounded regions 
+if(~isempty(clump_space_thresh) & ~isempty(clump_t_thresh))
+  [fix, fix_frames] = compute_clumped_fix(fix, fix_frames, t, x, ...
+			    clump_space_thresh, clump_t_thresh);
+end
+
+% remove short fixations
+[fix, fix_frames] = remove_short_fixations(fix, fix_frames, vt_t_thresh, t);
+
+
+%find average x,y position and place in fix_frames
+fix_frames = average_pos(fix_frames, raw_asl);

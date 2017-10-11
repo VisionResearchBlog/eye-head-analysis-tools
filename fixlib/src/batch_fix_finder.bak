@@ -1,0 +1,30 @@
+%batch_fix_finder.m - Allows one to run a group of
+%data files in the fixation finder simply edit
+%batch_fix_finder.m adding the files you want to
+%analyze by following the template listed above the
+%the filename cell array:
+
+function h = batch_fix_finder 
+ 
+%specify experiment type:
+  exp_type = 'bricks';
+  
+  
+%             'Filename.dat',            method, vel_thresh, t_thresh;
+ filelist = { 'MPD_121302_ww_wt.dat.data', 11,      50,        50; 
+	       %data files go here!
+	    }
+	      
+
+
+ 
+ 
+viz_results = 0;%Multiple files will overwrite each others graphs
+                %if turned 
+		
+%this for loop feeds the parameters to fix_finder.m
+for i = 1:sizeof(filelist),
+  
+  fix_finder(exp_type, filelist{i,2}, filelist{i,3}, filelist{i,4}, ...
+	     viz_results, filelist{i,1});
+end

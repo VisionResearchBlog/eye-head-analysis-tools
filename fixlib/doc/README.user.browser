@@ -1,0 +1,14 @@
+%**************************************************************
+%*      README.user.browser
+%*
+%*      pskirko 8.14.01
+%**************************************************************
+
+Browser is straightforward to use.  Just run it (e.g., from 
+bfx_study_subject.m).  There are no non-obvious features that i can 
+think of.
+
+
+BUGS:
+
+1) I think if you jump to a time less than 0 it will mess up.

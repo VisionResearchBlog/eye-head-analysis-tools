@@ -1,0 +1,17 @@
+    'BG_sp15.dat'    [24]    [1]
+    'CM_sp15.dat'    [12]    [0]
+    'JJ_real_sp.15.dat'    [10]    [0]
+    'MH_sp15.dat'    [10]    [0]
+    'ns_sp15.dat'    [2]    [0]
+
+
+    'CM_sp30.dat'    [26]    [2]
+    'JJ_real_sp.30.dat'    [6]    [1]
+    'MH_sp30.dat'    [7]    [2]
+
+
+    'BG_sp50.dat'    [27]    [2]
+    'CM_sp50.dat'    [24]    [0]
+    'JJ_real_sp.50.dat'    [4]    [0]
+    'MH_sp50.dat'    [15]    [0]
+     NS		     [0]     [0]

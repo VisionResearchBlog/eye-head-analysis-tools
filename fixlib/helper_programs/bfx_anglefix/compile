@@ -1,0 +1,3 @@
+#!/bin/csh -f
+
+cc -o bfx_anglefix bfx_anglefix.c

@@ -1,0 +1,58 @@
+%**************************************************************
+%*      README.user
+%*
+%*      pskirko 8.14.01
+%**************************************************************
+
+1. intro
+---------------------------------------------------------------
+
+this README is geared towards the users of fixlib.
+
+fixlib is implemented in Matlab.  Matlab is available on most of the Suns,
+SGIs, and PCs.  Older versions of matlab are available on the Mac but the
+lab currently does not have such a copy (8.14.01).
+
+2. running matlab
+---------------------------------------------------------------
+
+Fixlib was written for Matlab v 6.  Backwards compatibility not guaranteed.
+
+there is a script in the bin directory called run-matlab (for
+UNIX/SGI machines) that will start matlab w/o the big desktop GUI or the splash
+screen. 
+
+once you start matlab, run setup.m or setup_win.m. this adds the appropriate
+paths to matlabs path list.  you might need to tailor this setup to your
+particular paths.
+
+http://www.mathworks.com/access/helpdesk/help/techdoc/matlab.shtml
+
+is the URL for Matlab's "homepage". Its called the Helpdesk and has useful
+documents for Matlab users. here you can find tutorials, etc.  You need to
+be somewhat competent in Matlab (its part-calculator, part-programming 
+language) otherwise you'll probably be miserable using this or any other 
+Matlab stuff. Also, knowing Matlab is a useful (if not essential) tool for
+general science-y stuff these days.
+
+3. what you can use Fixlib for
+---------------------------------------------------------------
+
+the Fixlib code can be roughly divided into generic code, and research-specific
+code.  As a user you're probably not initially interested in the generic code;
+you probably want to use the specific code.
+
+Each set of research-specific code has its own directory, as follows:
+
+src/bfx				Baufix code
+src/cba				Change blindness code ("bricks" expt)
+src/stp				Saccade testing program 
+
+check out the README in each of the directories for more info.
+
+There are also some generic things you should know about:
+
+./README.user.fixfinders	using fixlib as "fixation finder"
+./README.user.loadingfiles      all about loading files
+./README.user.metrics		metrics available for future use
+./README.user.viz		visualization available in fixlib

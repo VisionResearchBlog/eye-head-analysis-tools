@@ -1,0 +1,7 @@
+#!/bin/csh
+
+foreach a (*.dat)
+echo $a
+$VRLAB/src/mainprogs/utilities/fixlib/helper_programs/cba_converter/cba_converter $a
+end
+
